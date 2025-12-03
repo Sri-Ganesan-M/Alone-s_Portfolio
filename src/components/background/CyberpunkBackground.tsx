@@ -8,7 +8,7 @@ import * as random from "maath/random";
 
 function ParticleField(props: any) {
     const ref = useRef<any>(null);
-    const [sphere] = useState(() => random.inSphere(new Float32Array(1500), { radius: 1.5 }));
+    const [sphere] = useState(() => random.inSphere(new Float32Array(600), { radius: 1.5 }));
 
     useFrame((state, delta) => {
         if (ref.current) {

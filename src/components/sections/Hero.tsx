@@ -14,12 +14,12 @@ export default function Hero() {
         <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden z-10">
             {/* Floating Neon/Glassmorphism Elements */}
             <motion.div
-                className="absolute top-1/4 left-1/4 w-64 h-64 bg-neon-cyan/10 rounded-full blur-3xl"
+                className="absolute top-1/4 left-1/4 w-64 h-64 bg-neon-cyan/10 rounded-full blur-2xl will-change-transform"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4, repeat: Infinity }}
             />
             <motion.div
-                className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-electric-purple/10 rounded-full blur-3xl"
+                className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-electric-purple/10 rounded-full blur-2xl will-change-transform"
                 animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 5, repeat: Infinity, delay: 1 }}
             />
