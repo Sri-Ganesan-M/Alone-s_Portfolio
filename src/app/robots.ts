@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://alone-dvd.vercel.app/sitemap.xml', // Update this domain after deployment
+        sitemap: 'https://alone-s-portfolio.vercel.app/sitemap.xml', // Update this domain after deployment
     };
 }
