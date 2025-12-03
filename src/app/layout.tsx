@@ -55,6 +55,9 @@ export const metadata: Metadata = {
     description: "Punithan A (alone.dvd) - Professional Video Editor for Reels, Promos & Social Media.",
     images: ["/alones-data/logo.png"],
   },
+  verification: {
+    google: "F2ldu_YePW5h9tN-ag-R3yBwSKxpOO8mVXvTeR8BWv4",
+  },
 };
 
 export default function RootLayout({
