@@ -21,6 +21,10 @@ const cinzel = Cinzel({
 
 export const metadata: Metadata = {
   title: "alone.dvd",
+  applicationName: "alone.dvd",
+  appleWebApp: {
+    title: "alone.dvd",
+  },
   description: "Punithan A (alone.dvd) is a professional video editor specializing in viral reels, cinematic short films, and high-energy social media content. Expert in Premiere Pro, After Effects, and visual storytelling.",
   keywords: [
     "alone.dvd", "punithan a", "viral editor", "editor", "short flim editor", "video editor",
@@ -61,7 +65,7 @@ export const metadata: Metadata = {
     description: "Transforming raw footage into viral masterpieces. Punithan A (alone.dvd) - Professional Video Editor for Reels, Short Films & Social Media.",
     type: "website",
     locale: "en_US",
-    siteName: "alone.dvd Portfolio",
+    siteName: "alone.dvd",
     images: [
       {
         url: "/alones-data/logo.png",
@@ -99,11 +103,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "alone.dvd",
+    "url": "https://alone-s-portfolio.vercel.app/",
+    "alternateName": ["Punithan A Portfolio", "alone.dvd Portfolio"]
+  };
+
   return (
     <html lang="en">
       <body
         className={`${inter.variable} ${robotoMono.variable} ${cinzel.variable} antialiased bg-black text-white overflow-x-hidden`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
