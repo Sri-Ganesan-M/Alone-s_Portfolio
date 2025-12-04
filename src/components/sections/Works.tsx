@@ -79,7 +79,7 @@ export default function Works({ works = [] }: { works: Work[] }) {
                             initial={{ scale: 0.9, y: 20 }}
                             animate={{ scale: 1, y: 0 }}
                             exit={{ scale: 0.9, y: 20 }}
-                            className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden max-w-4xl w-full max-h-[90vh] flex flex-col"
+                            className="bg-[#111] border border-white/10 rounded-2xl overflow-y-auto max-w-4xl w-full max-h-[90vh] flex flex-col custom-scrollbar"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div className="relative aspect-video bg-black flex items-center justify-center">

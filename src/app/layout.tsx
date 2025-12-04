@@ -20,7 +20,7 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: "alone.dvd | Punithan A | Viral Short-Form Video Editor",
+  title: "alone.dvd",
   description: "Punithan A (alone.dvd) is a professional video editor specializing in viral reels, cinematic short films, and high-energy social media content. Expert in Premiere Pro, After Effects, and visual storytelling.",
   keywords: [
     "alone.dvd", "punithan a", "viral editor", "editor", "short flim editor", "video editor",
