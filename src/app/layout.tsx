@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     "trending reels editor", "professional cinematic editor", "cheap video editor india",
     "expert youtube editor", "instagram growth editor"
   ],
-  authors: [{ name: "Punithan A", url: "https://alone-dvd.com" }],
+  authors: [{ name: "Punithan A", url: "https://alone-s-portfolio.vercel.app" }],
   creator: "Punithan A",
   publisher: "alone.dvd",
   icons: {

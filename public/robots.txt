@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /studio/
-Sitemap: https://alone-dvd.com/sitemap.xml
+Sitemap: https://alone-s-portfolio.vercel.app/sitemap.xml
