@@ -3,14 +3,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import { useCursor } from "@/context/CursorContext";
-// Import works data and type for type safety and maintainability
-import worksData from "@/data/works.json"; // <-- JSON import (update path if needed)
 import type { Work } from "@/types/work";
 import { Play, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import SectionTitle from "../ui/SectionTitle";
 
-export default function Works() {
+export default function Works({ works = [] }: { works: Work[] }) {
     const { setCursorType } = useCursor();
     const [filter, setFilter] = useState("All");
     // Use the Work type for selectedWork for better type safety
@@ -19,12 +17,10 @@ export default function Works() {
     const categories = ["All", "Reels", "Promos", "Brand Work"];
 
     // Dummy filtering logic since JSON doesn't have categories yet
+    // In a real app, you'd filter based on a category field in the Work object
     const filteredWorks: Work[] = filter === "All"
-        ? worksData as Work[]
-        : (worksData as Work[]).filter((_, i) => i % categories.length === categories.indexOf(filter));
-
-    console.log("Works Data:", worksData);
-    console.log("Filtered Works:", filteredWorks);
+        ? works
+        : works.filter((_, i) => i % categories.length === categories.indexOf(filter)); // Placeholder logic
 
     return (
         <section id="works" className="py-24 relative z-10">
@@ -107,22 +103,71 @@ export default function Works() {
                                 </button>
                             </div>
 
-                            <div className="p-6 md:p-8 flex flex-col md:flex-row justify-between items-start gap-6">
-                                <div>
-                                    <h3 className="text-2xl font-bold mb-2">{selectedWork.title}</h3>
-                                    <p className="text-gray-400">{selectedWork.description}</p>
+                            <div className="p-6 md:p-8 flex flex-col md:flex-row justify-between items-start gap-8">
+                                <div className="flex-1 space-y-6">
+                                    <div>
+                                        <h3 className="text-3xl font-bold mb-2">{selectedWork.title}</h3>
+                                        <p className="text-gray-300 text-lg leading-relaxed">{selectedWork.description}</p>
+                                    </div>
+
+                                    {/* Specs Grid */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                                        {selectedWork.contentType && (
+                                            <div>
+                                                <h4 className="text-neon-cyan text-xs font-mono uppercase tracking-wider mb-1">Content Type</h4>
+                                                <p className="text-white font-medium">{selectedWork.contentType}</p>
+                                            </div>
+                                        )}
+                                        {selectedWork.subjectMatter && (
+                                            <div>
+                                                <h4 className="text-neon-cyan text-xs font-mono uppercase tracking-wider mb-1">Subject Matter</h4>
+                                                <p className="text-white font-medium">{selectedWork.subjectMatter}</p>
+                                            </div>
+                                        )}
+                                        {selectedWork.editingStyle && (
+                                            <div>
+                                                <h4 className="text-neon-cyan text-xs font-mono uppercase tracking-wider mb-1">Editing Style</h4>
+                                                <p className="text-white font-medium">{selectedWork.editingStyle}</p>
+                                            </div>
+                                        )}
+                                        {selectedWork.software && selectedWork.software.length > 0 && (
+                                            <div>
+                                                <h4 className="text-neon-cyan text-xs font-mono uppercase tracking-wider mb-1">Software</h4>
+                                                <div className="flex gap-3 mt-1">
+                                                    {selectedWork.software.map((tool, idx) => (
+                                                        <div key={idx} className="relative group/tool">
+                                                            <div className="w-8 h-8 relative bg-white/10 rounded-lg p-1.5 border border-white/10 hover:border-neon-cyan/50 transition-colors">
+                                                                <Image
+                                                                    src={tool.logo}
+                                                                    alt={tool.name}
+                                                                    width={32}
+                                                                    height={32}
+                                                                    className="object-contain w-full h-full"
+                                                                />
+                                                            </div>
+                                                            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/tool:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-white/10">
+                                                                {tool.name}
+                                                            </span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
-                                <a
-                                    href={selectedWork.externalLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-6 py-3 bg-neon-cyan text-black font-bold rounded-lg hover:bg-white transition-colors flex items-center gap-2"
-                                    onMouseEnter={() => setCursorType("pointer")}
-                                    onMouseLeave={() => setCursorType("default")}
-                                >
-                                    Watch Full <ExternalLink size={18} />
-                                </a>
+                                <div className="flex flex-col gap-4 min-w-[200px]">
+                                    <a
+                                        href={selectedWork.externalLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-6 py-4 bg-neon-cyan text-black font-bold rounded-lg hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,255,0.3)] hover:shadow-[0_0_30px_rgba(0,255,255,0.5)]"
+                                        onMouseEnter={() => setCursorType("pointer")}
+                                        onMouseLeave={() => setCursorType("default")}
+                                    >
+                                        Watch Full <ExternalLink size={20} />
+                                    </a>
+                                </div>
                             </div>
                         </motion.div>
                     </motion.div>

@@ -2,11 +2,21 @@
 
 import { motion } from "framer-motion";
 import { useCursor } from "@/context/CursorContext";
-import profileData from "@/data/profile.json";
 import Image from "next/image";
 
-export default function About() {
+export default function About({ profile }: { profile: any }) {
     const { setCursorType } = useCursor();
+
+    // Fallback data
+    const name = profile?.name || "PUNITHAN A";
+    const title = profile?.aboutTitle || "The Editor Behind The Viral Cut";
+    const description = profile?.aboutDescription || "Crafting visual narratives that captivate and engage. With a keen eye for rhythm and a passion for storytelling, I transform raw footage into compelling content that resonates with audiences.";
+    const profileImage = profile?.profileImage || "/alones-data/profile_photo.jpeg";
+    const stats = profile?.stats || [
+        { label: "Years Experience", value: "4+" },
+        { label: "Projects Completed", value: "150+" },
+        { label: "Happy Clients", value: "50+" }
+    ];
 
     return (
         <section id="about" className="py-24 relative z-10 overflow-hidden">
@@ -21,18 +31,18 @@ export default function About() {
                         transition={{ duration: 0.8 }}
                     >
                         <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                            {profileData.title.split(" ").slice(0, 3).join(" ")} <br />
-                            <span className="text-neon-cyan">{profileData.title.split(" ").slice(3).join(" ")}</span>
+                            {title.split(" ").slice(0, 3).join(" ")} <br />
+                            <span className="text-neon-cyan">{title.split(" ").slice(3).join(" ")}</span>
                         </h2>
 
                         <div className="relative mb-8 p-6 border-l-4 border-neon-cyan bg-white/5 backdrop-blur-sm rounded-r-xl">
                             <p className="text-lg text-gray-300 leading-relaxed font-mono">
-                                "{profileData.description}"
+                                "{description}"
                             </p>
                         </div>
 
                         <div className="grid grid-cols-3 gap-8">
-                            {profileData.stats.map((stat, index) => (
+                            {stats.map((stat: any, index: number) => (
                                 <div key={index} className="text-center md:text-left">
                                     <h3 className="text-3xl font-bold text-electric-purple mb-1">{stat.value}</h3>
                                     <p className="text-sm text-gray-400 uppercase tracking-wider">{stat.label}</p>
@@ -53,8 +63,8 @@ export default function About() {
                             {/* Monitor Frame */}
                             <div className="relative aspect-[4/5] overflow-hidden rounded bg-gray-900">
                                 <Image
-                                    src={profileData.profileImage}
-                                    alt={profileData.name}
+                                    src={profileImage}
+                                    alt={name}
                                     fill
                                     className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                                 />
@@ -90,7 +100,7 @@ export default function About() {
                                     {/* Bottom Info */}
                                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                                         <div>
-                                            <h3 className="text-white font-bold text-xl uppercase tracking-widest">{profileData.name}</h3>
+                                            <h3 className="text-white font-bold text-xl uppercase tracking-widest">{name}</h3>
                                             <p className="text-neon-cyan text-xs font-mono">DIRECTOR / EDITOR</p>
                                         </div>
                                         <div className="text-right">

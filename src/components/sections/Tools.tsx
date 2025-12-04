@@ -2,12 +2,9 @@
 
 import { motion } from "framer-motion";
 import SectionTitle from "../ui/SectionTitle";
-
-
-import toolsData from "@/data/tools.json";
 import Image from "next/image";
 
-export default function Tools() {
+export default function Tools({ tools = [] }: { tools: any[] }) {
     return (
         <section id="tools" className="py-24 relative z-10 overflow-hidden">
             <div className="container mx-auto px-4 mb-12">
@@ -33,7 +30,7 @@ export default function Tools() {
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 >
-                    {[...toolsData, ...toolsData].map((tool, index) => (
+                    {[...tools, ...tools].map((tool, index) => (
                         <div
                             key={`${tool.id}-${index}`}
                             className="relative w-80 h-56 bg-black border-y-[12px] border-black flex flex-col items-center justify-center p-8 group transition-all duration-300 shadow-2xl"

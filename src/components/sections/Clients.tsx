@@ -2,11 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useCursor } from "@/context/CursorContext";
-import clientsData from "@/data/clients.json";
 import Image from "next/image";
 import SectionTitle from "../ui/SectionTitle";
 
-export default function Clients() {
+export default function Clients({ clients = [] }: { clients: any[] }) {
     const { setCursorType } = useCursor();
 
     return (
@@ -52,7 +51,7 @@ export default function Clients() {
                         <div className="h-px bg-white/10" />
                     </div>
 
-                    {clientsData.map((client, index) => (
+                    {clients.map((client, index) => (
                         <motion.div
                             key={client.id}
                             initial={{ x: -50, opacity: 0 }}

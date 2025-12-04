@@ -6,9 +6,15 @@ import { useLoading } from "@/context/LoadingContext";
 import { Instagram, Youtube, Mail } from 'lucide-react';
 import Image from 'next/image';
 
-export default function Hero() {
+export default function Hero({ profile }: { profile: any }) {
     const { setCursorType } = useCursor();
     const { isLoading } = useLoading();
+
+    // Fallback content if Sanity data isn't ready
+    const name = profile?.name || "PUNITHAN A";
+    const title = profile?.heroTitle || "Short-Form Video Editor";
+    const description = profile?.heroDescription || "Specializing in reels, promos & social-ready edits.\nBringing fast cuts, clean transitions, and storytelling that hooks in seconds.";
+    const social = profile?.socialLinks || {};
 
     return (
         <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden z-10">
@@ -50,7 +56,7 @@ export default function Hero() {
                             animate={!isLoading ? { letterSpacing: "0.1em", opacity: 1, filter: "blur(0px)" } : {}}
                             transition={{ duration: 2.5, ease: "easeOut" }}
                         >
-                            PUNITHAN A
+                            {name}
                         </motion.span>
                         <motion.div
                             className="flex items-center justify-center gap-4 mt-2"
@@ -87,24 +93,43 @@ export default function Hero() {
                         animate={!isLoading ? { opacity: 1 } : {}}
                         transition={{ delay: 0.8, duration: 1 }}
                     >
-                        <span className="block mb-2">Short-Form Video Editor</span>
-                        <motion.span
-                            className="text-gray-400 text-xl md:text-2xl block"
-                            initial={{ width: 0 }}
-                            animate={!isLoading ? { width: "100%" } : {}}
-                            transition={{ delay: 1.5, duration: 2, ease: "easeOut" }}
-                            style={{ overflow: "hidden", whiteSpace: "nowrap", margin: "0 auto", display: "inline-block" }}
-                        >
-                            Specializing in reels, promos & social-ready edits.
-                        </motion.span>
-                        <motion.span
-                            className="block text-lg md:text-xl text-gray-500 mt-4"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={!isLoading ? { opacity: 1, y: 0 } : {}}
-                            transition={{ delay: 3.5, duration: 1 }}
-                        >
-                            Bringing fast cuts, clean transitions, and storytelling that hooks in seconds.
-                        </motion.span>
+                        {/* Animated Title */}
+                        <span className="block mb-4 overflow-hidden">
+                            {title.split("").map((char: string, index: number) => (
+                                <motion.span
+                                    key={index}
+                                    initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
+                                    animate={!isLoading ? { y: 0, opacity: 1, filter: "blur(0px)" } : {}}
+                                    transition={{
+                                        delay: 1 + index * 0.03,
+                                        duration: 0.8,
+                                        ease: [0.2, 0.65, 0.3, 0.9],
+                                    }}
+                                    className="inline-block"
+                                >
+                                    {char === " " ? "\u00A0" : char}
+                                </motion.span>
+                            ))}
+                        </span>
+
+                        {/* Animated Description (Word by Word) */}
+                        <span className="text-gray-400 text-xl md:text-2xl block leading-relaxed">
+                            {description.split(" ").map((word: string, index: number) => (
+                                <motion.span
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
+                                    animate={!isLoading ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+                                    transition={{
+                                        delay: 2 + index * 0.1, // Staggered delay for each word
+                                        duration: 0.6,
+                                        ease: "easeOut"
+                                    }}
+                                    className="inline-block mr-2"
+                                >
+                                    {word}
+                                </motion.span>
+                            ))}
+                        </span>
                     </motion.p>
                 </motion.div>
 
@@ -141,34 +166,40 @@ export default function Hero() {
                 transition={{ delay: 1.5, duration: 1 }}
             >
                 <div className="w-[1px] h-24 bg-gradient-to-b from-transparent to-white/20 mx-auto" />
-                <a
-                    href="https://www.instagram.com/alone.dvd/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-neon-cyan transition-colors transform hover:scale-110"
-                    onMouseEnter={() => setCursorType("pointer")}
-                    onMouseLeave={() => setCursorType("default")}
-                >
-                    <Instagram size={36} />
-                </a>
-                <a
-                    href="https://www.youtube.com/@Alone.2k3"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-red-500 transition-colors transform hover:scale-110"
-                    onMouseEnter={() => setCursorType("pointer")}
-                    onMouseLeave={() => setCursorType("default")}
-                >
-                    <Youtube size={36} />
-                </a>
-                <a
-                    href="mailto:alonework2k3@gmail.com"
-                    className="text-gray-400 hover:text-electric-purple transition-colors transform hover:scale-110"
-                    onMouseEnter={() => setCursorType("pointer")}
-                    onMouseLeave={() => setCursorType("default")}
-                >
-                    <Mail size={36} />
-                </a>
+                {social.instagram && (
+                    <a
+                        href={social.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-neon-cyan transition-colors transform hover:scale-110"
+                        onMouseEnter={() => setCursorType("pointer")}
+                        onMouseLeave={() => setCursorType("default")}
+                    >
+                        <Instagram size={36} />
+                    </a>
+                )}
+                {social.youtube && (
+                    <a
+                        href={social.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-red-500 transition-colors transform hover:scale-110"
+                        onMouseEnter={() => setCursorType("pointer")}
+                        onMouseLeave={() => setCursorType("default")}
+                    >
+                        <Youtube size={36} />
+                    </a>
+                )}
+                {social.email && (
+                    <a
+                        href={`mailto:${social.email}`}
+                        className="text-gray-400 hover:text-electric-purple transition-colors transform hover:scale-110"
+                        onMouseEnter={() => setCursorType("pointer")}
+                        onMouseLeave={() => setCursorType("default")}
+                    >
+                        <Mail size={36} />
+                    </a>
+                )}
                 <div className="w-[1px] h-24 bg-gradient-to-t from-transparent to-white/20 mx-auto" />
             </motion.div>
 

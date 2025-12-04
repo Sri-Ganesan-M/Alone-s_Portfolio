@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCursor } from "@/context/CursorContext";
 import { Mail, Instagram, Youtube, Send, Clapperboard, CheckCircle, AlertCircle } from "lucide-react";
 import emailjs from "@emailjs/browser";
-import profileData from "@/data/profile.json";
 import ClientDate from "@/components/ui/ClientDate";
 
-export default function Contact() {
+export default function Contact({ profile }: { profile: any }) {
     const { setCursorType } = useCursor();
     const formRef = useRef<HTMLFormElement>(null);
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+    const social = profile?.socialLinks || {};
+    const name = profile?.name || "PUNITHAN A";
 
     const sendEmail = (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,11 +21,9 @@ export default function Contact() {
 
         setStatus("sending");
 
-        // REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS
-        // You can find these in your EmailJS dashboard: https://dashboard.emailjs.com/
-        const SERVICE_ID = "YOUR_SERVICE_ID";
-        const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
-        const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+        const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+        const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+        const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
         emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
             .then(() => {
@@ -59,27 +59,33 @@ export default function Contact() {
                         </p>
 
                         <div className="space-y-6">
-                            <SocialLink
-                                href={`mailto:${profileData.socialLinks.email}`}
-                                icon={<Mail size={24} />}
-                                label={profileData.socialLinks.email}
-                                color="hover:text-neon-cyan"
-                                setCursorType={setCursorType}
-                            />
-                            <SocialLink
-                                href={profileData.socialLinks.instagram}
-                                icon={<Instagram size={24} />}
-                                label="Instagram"
-                                color="hover:text-pink-500"
-                                setCursorType={setCursorType}
-                            />
-                            <SocialLink
-                                href={profileData.socialLinks.youtube}
-                                icon={<Youtube size={24} />}
-                                label="YouTube"
-                                color="hover:text-red-500"
-                                setCursorType={setCursorType}
-                            />
+                            {social.email && (
+                                <SocialLink
+                                    href={`mailto:${social.email}`}
+                                    icon={<Mail size={24} />}
+                                    label={social.email}
+                                    color="hover:text-neon-cyan"
+                                    setCursorType={setCursorType}
+                                />
+                            )}
+                            {social.instagram && (
+                                <SocialLink
+                                    href={social.instagram}
+                                    icon={<Instagram size={24} />}
+                                    label="Instagram"
+                                    color="hover:text-pink-500"
+                                    setCursorType={setCursorType}
+                                />
+                            )}
+                            {social.youtube && (
+                                <SocialLink
+                                    href={social.youtube}
+                                    icon={<Youtube size={24} />}
+                                    label="YouTube"
+                                    color="hover:text-red-500"
+                                    setCursorType={setCursorType}
+                                />
+                            )}
                         </div>
                     </motion.div>
 
@@ -175,7 +181,7 @@ export default function Contact() {
             </div>
 
             <footer className="mt-24 border-t border-white/10 pt-8 pb-8 text-center text-gray-500 text-sm font-mono">
-                <p>© {new Date().getFullYear()} {profileData.name}. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} {name}. All rights reserved.</p>
                 <p className="mt-2 text-xs">DESIGNED FOR CREATORS</p>
             </footer>
         </section>
